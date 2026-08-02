@@ -1,0 +1,16 @@
+▲ Next.js 16.2.12 (Turbopack)
+- Local:         http://localhost:3999
+- Network:       http://10.206.60.220:3999
+- Environments: .env
+✓ Ready in 534ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\Manjiri\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\Manjiri\Documents\HACK ME\Waveblock\polpp\waveblock\package-lock.json
+
+
+ GET /api/auth/nonce 200 in 911ms (next.js: 824ms, application-code: 87ms)
+ POST /api/auth/verify 200 in 539ms (next.js: 295ms, application-code: 244ms)
+[?25h

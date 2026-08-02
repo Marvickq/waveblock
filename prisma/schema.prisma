@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wallets       Wallet[]
+  analyses      Analysis[]
+  portfolioScans PortfolioScan[]
+  savedReports  SavedReport[]
+  settings      UserSettings?
+  messages      CopilotMessage[]
+  guardianChecks GuardianCheck[]
+
+  @@map("users")
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  address   String   @unique
+  chainId   Int?
+  ensName   String?
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("wallets")
+}
+
+model Analysis {
+  id         String   @id @default(cuid())
+  tokenAddress String
+  tokenName  String?
+  tokenSymbol String?
+  tokenDecimals Int?
+  totalSupply String?
+  owner      String?
+  verified   Boolean?
+  chainId    Int?
+  blockNumber Int?
+  createdAt  DateTime @default(now())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  trustReport TrustReport?
+  savedReports SavedReport[]
+
+  @@map("analyses")
+}
+
+model TrustReport {
+  id              String   @id @default(cuid())
+  trustScore      Int
+  riskLevel       String
+  scamRisk        String
+  liquidityStatus String
+  ownershipRisk   String
+  holderConcentration String
+  contractRisks   String
+  aiSummary       String
+  reportHash      String?
+  verified        Boolean  @default(false)
+  txHash          String?
+  blockNumber     Int?
+  blockTimestamp  DateTime?
+  registryId      String?
+  createdAt       DateTime @default(now())
+
+  analysisId String @unique
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([reportHash])
+  @@map("trust_reports")
+}
+
+model PortfolioScan {
+  id        String   @id @default(cuid())
+  walletAddress String
+  totalTokens   Int
+  healthScore   Int
+  riskScore     Int
+  highRiskCount Int
+  whaleConcentration Int
+  diversificationScore Int
+  aiSummary     String
+  snapshot      String
+  createdAt     DateTime @default(now())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([walletAddress])
+  @@map("portfolio_scans")
+}
+
+model SavedReport {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  analysisId String
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, analysisId])
+  @@map("saved_reports")
+}
+
+model UserSettings {
+  id            String   @id @default(cuid())
+  theme         String   @default("light")
+  preferredNetwork String @default("ethereum")
+  aiModel       String?
+  emailAlerts   Boolean  @default(false)
+  highRiskAlerts Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
+}
+
+model CopilotMessage {
+  id        String   @id @default(cuid())
+  role      String
+  content   String
+  tokenAddress String?
+  conversationId String?
+  createdAt DateTime @default(now())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([conversationId])
+  @@map("copilot_messages")
+}
+
+model GuardianCheck {
+  id        String   @id @default(cuid())
+  txTo      String
+  selector  String?
+  riskLevel String
+  warnings  String
+  aiRecommendation String
+  gasEstimate String?
+  createdAt DateTime @default(now())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@map("guardian_checks")
+}

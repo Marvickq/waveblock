@@ -1,0 +1,431 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+@import "../../variables.css";
+@import "../../theme.css";
+
+/* ============================================================
+   BASE
+============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-color: var(--wb-color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --color-onyx-canvas: #171721;
+  --color-graphite-card: #1e1e2a;
+  --color-obsidian-button: #272735;
+  --color-slate-border: #70707d;
+  --color-mist-border: #e2e3ed;
+  --color-ash-text: #c3c3cc;
+  --color-ivory-text: #ededf3;
+  --color-cobalt: #5266eb;
+  --color-success: #42B883;
+  --color-warning: #F4B942;
+  --color-critical: #E35D6A;
+
+  --wb-color-background: var(--color-onyx-canvas);
+  --wb-color-card: var(--color-graphite-card);
+  --wb-color-primary: var(--color-cobalt);
+  --wb-color-text-primary: var(--color-ivory-text);
+  --wb-color-text-secondary: var(--color-ash-text);
+  --wb-color-border: var(--color-obsidian-button);
+}
+
+body {
+  background-color: var(--wb-color-background);
+  color: var(--wb-color-text-primary);
+  font-family: var(--wb-font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition:
+    background-color var(--wb-duration-normal) var(--wb-ease-standard),
+    color var(--wb-duration-normal) var(--wb-ease-standard);
+}
+
+@theme inline {
+  --color-primary: var(--wb-color-primary);
+  --color-accent: var(--wb-color-accent);
+  --color-success: var(--wb-color-success);
+  --color-warning: var(--wb-color-warning);
+  --color-danger: var(--wb-color-danger);
+  --color-background: var(--wb-color-background);
+  --font-serif: var(--wb-font-display);
+  --font-sans: var(--wb-font-ui);
+  --font-mono: var(--wb-font-mono);
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILS
+============================================================ */
+
+.font-serif { font-family: var(--wb-font-display); }
+.font-sans  { font-family: var(--wb-font-ui); }
+.font-mono  { font-family: var(--wb-font-mono); }
+
+/* ============================================================
+   SCROLLBAR
+============================================================ */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--wb-color-background); }
+::-webkit-scrollbar-thumb { background: rgba(79, 124, 255, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--wb-color-primary); }
+
+/* ============================================================
+   SELECTION
+============================================================ */
+
+::selection {
+  background: rgba(79, 124, 255, 0.25);
+  color: var(--wb-color-primary);
+}
+
+/* ============================================================
+   GRADIENT TEXT
+============================================================ */
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--wb-color-primary), var(--wb-color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   PAGE ENTRANCE ANIMATION
+============================================================ */
+
+@keyframes page-in-anim {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-in {
+  animation: page-in-anim var(--wb-duration-page) var(--wb-ease-enter) both;
+}
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--wb-duration-slow) var(--wb-ease-enter),
+    transform var(--wb-duration-slow) var(--wb-ease-enter);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   SKELETON LOADER
+============================================================ */
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--wb-color-surface) 25%,
+    var(--wb-color-surface-elevated) 50%,
+    var(--wb-color-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer var(--wb-duration-loader) var(--wb-ease-linear) infinite;
+  border-radius: var(--wb-radius-sm);
+}
+
+/* ============================================================
+   GLASS EFFECTS
+============================================================ */
+
+.glass {
+  background: rgba(20, 26, 38, 0.72);
+  backdrop-filter: blur(var(--wb-blur-glass));
+  -webkit-backdrop-filter: blur(var(--wb-blur-glass));
+  border: 1px solid var(--wb-color-border);
+}
+
+.glass-nav {
+  background: var(--wb-color-navbar);
+  backdrop-filter: blur(var(--wb-blur-navbar));
+  -webkit-backdrop-filter: blur(var(--wb-blur-navbar));
+  border-bottom: 1px solid var(--wb-color-border-soft);
+}
+
+/* ============================================================
+   LAYOUT CONTAINER
+============================================================ */
+
+/* Canonical 1280px centered content shell — use on every page */
+.wb-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem; /* 32px */
+  padding-right: 2rem;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .wb-container {
+    padding-left: 3rem; /* 48px */
+    padding-right: 3rem;
+  }
+}
+
+/* ============================================================
+   SECTION
+============================================================ */
+
+/* 96px vertical spacing */
+.section {
+  padding: 96px 0;
+}
+
+@media (max-width: 768px) {
+  .section { padding: 64px 0; }
+}
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wb-space-8);
+  height: var(--wb-button-height-md);
+  padding: 0 var(--wb-button-padding-x);
+  background: var(--wb-button-primary-bg);
+  color: var(--wb-button-primary-text);
+  font-family: var(--wb-font-ui);
+  font-size: var(--wb-button-font-size);
+  font-weight: var(--wb-button-font-weight);
+  border-radius: var(--wb-button-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--wb-button-transition);
+  box-shadow: var(--wb-button-shadow);
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--wb-button-primary-hover);
+  box-shadow: var(--wb-button-hover-shadow);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  background: var(--wb-button-primary-active);
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wb-space-8);
+  height: var(--wb-button-height-md);
+  padding: 0 var(--wb-button-padding-x);
+  background: var(--wb-button-secondary-bg);
+  color: var(--wb-button-secondary-text);
+  font-family: var(--wb-font-ui);
+  font-size: var(--wb-button-font-size);
+  font-weight: var(--wb-button-font-weight);
+  border-radius: var(--wb-button-radius);
+  border: 1px solid var(--wb-button-secondary-border);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--wb-button-transition);
+}
+
+.btn-secondary:hover {
+  background: var(--wb-button-secondary-hover);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   CARDS
+============================================================ */
+
+.wb-card {
+  background: var(--wb-color-card);
+  border: 1px solid var(--wb-color-border);
+  border-radius: var(--wb-radius-lg);
+  transition:
+    box-shadow var(--wb-duration-normal) var(--wb-ease-standard),
+    border-color var(--wb-duration-normal) var(--wb-ease-standard),
+    transform var(--wb-duration-normal) var(--wb-ease-standard);
+}
+
+.wb-card:hover {
+  box-shadow: var(--wb-shadow-card-hover);
+  border-color: var(--wb-color-border-strong);
+}
+
+/* ============================================================
+   INPUTS
+============================================================ */
+
+.wb-input {
+  width: 100%;
+  background: var(--wb-color-surface);
+  border: 1px solid var(--wb-color-border);
+  border-radius: var(--wb-radius-md);
+  padding: var(--wb-space-12) var(--wb-space-16);
+  color: var(--wb-color-text-primary);
+  font-family: var(--wb-font-ui);
+  font-size: var(--wb-text-sm);
+  transition:
+    border-color var(--wb-duration-fast) var(--wb-ease-standard),
+    box-shadow var(--wb-duration-fast) var(--wb-ease-standard);
+  outline: none;
+}
+
+.wb-input:focus {
+  border-color: var(--wb-color-primary);
+  box-shadow: var(--wb-shadow-focus);
+}
+
+.wb-input::placeholder {
+  color: var(--wb-color-text-disabled);
+}
+
+/* ============================================================
+   BADGE / RISK CHIPS
+============================================================ */
+
+.risk-low {
+  background: rgba(24, 195, 126, 0.12);
+  color: var(--wb-color-success);
+  border: 1px solid rgba(24, 195, 126, 0.20);
+}
+
+.risk-medium {
+  background: rgba(245, 185, 66, 0.12);
+  color: var(--wb-color-warning);
+  border: 1px solid rgba(245, 185, 66, 0.20);
+}
+
+.risk-high {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--wb-color-danger);
+  border: 1px solid rgba(239, 68, 68, 0.20);
+}
+
+.risk-critical {
+  background: rgba(185, 28, 28, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(185, 28, 28, 0.25);
+}
+
+/* ============================================================
+   TABLE
+============================================================ */
+
+.wb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--wb-text-sm);
+  font-family: var(--wb-font-ui);
+}
+
+.wb-table th {
+  text-align: left;
+  padding: var(--wb-space-12) var(--wb-space-16);
+  color: var(--wb-color-text-muted);
+  font-weight: var(--wb-font-weight-semibold);
+  font-size: var(--wb-text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--wb-tracking-wide);
+  border-bottom: 1px solid var(--wb-color-border);
+  white-space: nowrap;
+}
+
+.wb-table td {
+  padding: var(--wb-space-12) var(--wb-space-16);
+  color: var(--wb-color-text-primary);
+  border-bottom: 1px solid var(--wb-color-border-soft);
+}
+
+.wb-table tr:hover td {
+  background: var(--wb-color-surface-hover);
+}
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+
+nav.wb-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--wb-z-navbar);
+  height: var(--wb-navbar-height);
+  background: var(--wb-navbar-background);
+  backdrop-filter: blur(var(--wb-navbar-backdrop));
+  -webkit-backdrop-filter: blur(var(--wb-navbar-backdrop));
+  border-bottom: 1px solid var(--wb-navbar-border);
+  transition: box-shadow var(--wb-duration-normal) var(--wb-ease-standard);
+}
+
+/* ============================================================
+   FOCUS VISIBLE
+============================================================ */
+
+:focus-visible {
+  outline: var(--wb-focus-ring-width) solid var(--wb-focus-ring-color);
+  outline-offset: var(--wb-focus-ring-offset);
+}
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   ADDITIONAL ANIMATIONS
+============================================================ */
+
+@keyframes score-appear {
+  0%   { opacity: 0; transform: scale(0.6); }
+  60%  { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.score-appear { animation: score-appear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  20%  { opacity: 1; }
+  80%  { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-120vh) scale(1.2); }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
