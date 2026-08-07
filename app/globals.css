@@ -392,8 +392,7 @@ nav.wb-navbar {
 ============================================================ */
 
 :focus-visible {
-  outline: var(--wb-focus-ring-width) solid var(--wb-focus-ring-color);
-  outline-offset: var(--wb-focus-ring-offset);
+  outline: none;
 }
 
 /* ============================================================
@@ -429,3 +428,198 @@ nav.wb-navbar {
   0%   { transform: scale(1); opacity: 0.6; }
   100% { transform: scale(1.6); opacity: 0; }
 }
+
+/* ============================================================
+   PREMIUM SCROLL REVEAL SYSTEM
+   GPU-accelerated via transform + opacity only (60 FPS)
+============================================================ */
+
+/* Base reveal state — invisible, translated down */
+.wb-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Triggered when IntersectionObserver fires */
+.wb-reveal.wb-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for card grids */
+.wb-reveal:nth-child(1)  { transition-delay:   0ms; }
+.wb-reveal:nth-child(2)  { transition-delay:  80ms; }
+.wb-reveal:nth-child(3)  { transition-delay: 160ms; }
+.wb-reveal:nth-child(4)  { transition-delay: 240ms; }
+.wb-reveal:nth-child(5)  { transition-delay: 320ms; }
+.wb-reveal:nth-child(6)  { transition-delay: 400ms; }
+
+/* Slide-up variant (more vertical travel) */
+.wb-reveal-lg {
+  opacity: 0;
+  transform: translateY(48px);
+  transition:
+    opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.wb-reveal-lg.wb-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade-only variant */
+.wb-reveal-fade {
+  opacity: 0;
+  transition: opacity 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+.wb-reveal-fade.wb-revealed { opacity: 1; }
+
+/* Scale-up variant for hero elements */
+.wb-reveal-scale {
+  opacity: 0;
+  transform: scale(0.94) translateY(20px);
+  transition:
+    opacity 480ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.wb-reveal-scale.wb-revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* ============================================================
+   PREMIUM HOVER / MICRO-INTERACTIONS
+============================================================ */
+
+/* Interactive card lift */
+.wb-card-hover {
+  transition:
+    transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease;
+  will-change: transform, box-shadow;
+}
+.wb-card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* Button press feedback */
+.wb-btn-interactive {
+  transition:
+    transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 150ms ease;
+  will-change: transform;
+}
+.wb-btn-interactive:hover  { transform: translateY(-1px); }
+.wb-btn-interactive:active { transform: translateY(1px); }
+
+/* Smooth link underline */
+.wb-link {
+  position: relative;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+.wb-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: var(--wb-color-primary);
+  transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wb-link:hover::after { width: 100%; }
+
+/* Icon glow on hover */
+.wb-icon-hover {
+  transition: filter 200ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.wb-icon-hover:hover {
+  filter: drop-shadow(0 0 8px rgba(82, 102, 235, 0.55));
+  transform: scale(1.05);
+}
+
+/* ============================================================
+   NAVBAR SCROLL TRANSITION
+============================================================ */
+
+.glass-nav {
+  transition:
+    background-color 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease,
+    backdrop-filter 250ms ease;
+}
+
+/* ============================================================
+   PAGE TRANSITIONS — consistent across all routes
+============================================================ */
+
+@keyframes page-in-anim {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-in {
+  animation: page-in-anim 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
+   SECTION SPACING — enterprise rhythm
+============================================================ */
+
+.section-hero    { padding: 128px 0; }
+.section-content { padding: 96px 0; }
+.section-compact { padding: 64px 0; }
+
+@media (max-width: 768px) {
+  .section-hero    { padding: 80px 0; }
+  .section-content { padding: 64px 0; }
+  .section-compact { padding: 48px 0; }
+}
+
+/* ============================================================
+   SMOOTH FOCUS RING — keyboard accessible
+============================================================ */
+
+:focus-visible {
+  outline: 2px solid var(--wb-color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+  transition: outline-color 150ms ease;
+}
+
+/* ============================================================
+   REDUCED MOTION — full compliance
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .wb-reveal,
+  .wb-reveal-lg,
+  .wb-reveal-fade,
+  .wb-reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+

@@ -314,20 +314,31 @@ export default function Dashboard() {
   }, []);
 
   async function connectWallet() {
-    if (typeof window === "undefined" || !(window as any).ethereum) {
-      alert("MetaMask is not installed.");
+    if (typeof window === "undefined") return;
+    const win = window as any;
+    let provider: any = null;
+    if (win.ethereum?.providers?.length) {
+      provider = win.ethereum.providers.find((p: any) => p.isMetaMask) ?? win.ethereum.providers[0];
+    } else if (win.ethereum) {
+      provider = win.ethereum;
+    }
+    if (!provider) {
+      let inIframe = false;
+      try { inIframe = window.self !== window.top; } catch { inIframe = true; }
+      alert(inIframe
+        ? "Wallet connection is unavailable in preview environments. Open the app in a full browser tab."
+        : "No Ethereum wallet detected. Please install MetaMask or another Web3 wallet."
+      );
       return;
     }
     try {
-      const { ethers } = await import("ethers");
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
-      if (accounts[0]) {
+      const accounts: string[] = await provider.request({ method: "eth_requestAccounts" });
+      if (accounts?.[0]) {
         setWallet(accounts[0]);
         localStorage.setItem("wb_wallet", accounts[0]);
       }
-    } catch (err) {
-      if ((err as any)?.code === 4001) return;
+    } catch (err: any) {
+      if (err?.code === 4001) return;
       console.error("Wallet connection failed:", err);
     }
   }

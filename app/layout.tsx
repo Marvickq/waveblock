@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: {
@@ -53,6 +54,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen antialiased">
         <Navbar />
+        <ScrollReveal />
         <main style={{ paddingTop: "var(--wb-navbar-height, 64px)" }}>{children}</main>
       </body>
     </html>

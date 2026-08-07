@@ -13,7 +13,6 @@ const NAV_LINKS = [
   { href: "/intelligence", label: "Intelligence" },
   { href: "/reports",     label: "Reports"       },
   { href: "/docs",        label: "Documentation" },
-  { href: "/settings",    label: "Settings"      },
 ];
 
 export default function Navbar() {
@@ -37,7 +36,14 @@ export default function Navbar() {
     const storedEns = localStorage.getItem("wb_ens");
     if (storedEns) setEnsName(storedEns);
 
-    const eth = (window as any).ethereum;
+    const win = window as any;
+    // Resolve the active provider (multi-wallet aware)
+    let eth: any = null;
+    if (win.ethereum?.providers?.length) {
+      eth = win.ethereum.providers.find((p: any) => p.isMetaMask) ?? win.ethereum.providers[0];
+    } else if (win.ethereum) {
+      eth = win.ethereum;
+    }
     if (!eth) return;
 
     eth.request({ method: "eth_accounts" })
@@ -75,13 +81,16 @@ export default function Navbar() {
     localStorage.setItem('wb_theme', theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((t) => (t === 'light' ? 'dark' : 'light'));
-  };
-
   useEffect(() => {
-    if (typeof window === "undefined" || !(window as any).ethereum) return;
-    const eth = (window as any).ethereum;
+    if (typeof window === "undefined") return;
+    const win = window as any;
+    let eth: any = null;
+    if (win.ethereum?.providers?.length) {
+      eth = win.ethereum.providers.find((p: any) => p.isMetaMask) ?? win.ethereum.providers[0];
+    } else if (win.ethereum) {
+      eth = win.ethereum;
+    }
+    if (!eth) return;
 
     const handleAccountsChanged = (accounts: string[]) => {
       if (accounts.length === 0) {
@@ -154,37 +163,57 @@ export default function Navbar() {
   }
 
   async function connectWallet() {
-    if (typeof window === "undefined" || !(window as any).ethereum) {
-      alert("MetaMask is not installed. Please install MetaMask to connect.");
+    if (typeof window === "undefined") return;
+
+    // Detect injected provider — support multi-wallet environments (EIP-6963 / legacy providers array)
+    const win = window as any;
+    let provider: any = null;
+
+    if (win.ethereum?.providers?.length) {
+      // Multiple wallets injected — prefer MetaMask, fall back to first available
+      provider = win.ethereum.providers.find((p: any) => p.isMetaMask) ?? win.ethereum.providers[0];
+    } else if (win.ethereum) {
+      provider = win.ethereum;
+    }
+
+    if (!provider || typeof provider.request !== "function") {
+      // Check if we are in a sandboxed iframe / preview environment
+      let inIframe = false;
+      try { inIframe = window.self !== window.top; } catch { inIframe = true; }
+
+      if (inIframe) {
+        alert("Wallet connection is unavailable in embedded preview environments. Please open the app in a full browser tab.");
+      } else {
+        alert("No Ethereum wallet detected. Please install MetaMask or another Web3 wallet extension.");
+      }
       return;
     }
+
     try {
-      const { ethers } = await import("ethers");
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
-      if (accounts[0]) {
+      const accounts: string[] = await provider.request({ method: "eth_requestAccounts" });
+      if (accounts?.[0]) {
         setWallet(accounts[0]);
         localStorage.setItem("wb_wallet", accounts[0]);
         resolveEns(accounts[0]);
         signInWithEthereum(accounts[0]);
       }
-    } catch (err) {
-      if ((err as any)?.code === 4001) return;
-      console.error("Wallet connection failed:", err);
+    } catch (err: any) {
+      if (err?.code === 4001) return; // user rejected
+
+      const msg = err && typeof err === "object" && "message" in err ? String(err.message) : String(err);
+      console.error("Wallet connection failed:", msg);
+
+      // MetaMask's own inpage script throws "MetaMask extension not found" when the
+      // extension can't communicate with this page (e.g. sandboxed iframe previews).
+      if (/extension not found/i.test(msg)) {
+        let inIframe = false;
+        try { inIframe = window.self !== window.top; } catch { inIframe = true; }
+        alert(inIframe
+          ? "Wallet connection is unavailable in embedded preview environments. Please open the app in a full browser tab."
+          : "MetaMask extension was not found. Please ensure MetaMask is installed and unlocked.");
+      }
     }
   }
-
-  function disconnectWallet() {
-    setWallet(null);
-    setEnsName(null);
-    localStorage.removeItem("wb_wallet");
-    localStorage.removeItem("wb_ens");
-    try {
-      fetch("/api/auth/me", { method: "DELETE" });
-    } catch {}
-  }
-
-  const displayName = ensName || (wallet ? `${wallet.slice(0, 6)}...${wallet.slice(-4)}` : null);
 
   return (
     <nav
@@ -235,76 +264,16 @@ export default function Navbar() {
 
 
 
-        {/* CTA + Wallet + Theme */}
+        {/* CTA + Wallet */}
         <div className="hidden md:flex items-center" style={{ gap: "var(--wb-space-12)" }}>
-          {/* Theme Toggle */}
           <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg"
-            style={{
-              color: "var(--wb-color-text-secondary)",
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              transition: "background var(--wb-duration-fast) var(--wb-ease-standard), color var(--wb-duration-fast) var(--wb-ease-standard)",
-            }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "var(--wb-navbar-hover-bg)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
-            title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-            aria-label={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+            id="navbar-connect-wallet"
+            className="btn-primary text-sm"
+            onClick={connectWallet}
+            disabled={signingIn}
           >
-            {theme === 'dark' ? (
-              /* Sun icon — shown in dark mode to switch to light */
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-              </svg>
-            ) : (
-              /* Moon icon — shown in light mode to switch to dark */
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
+            {signingIn ? "Signing…" : "Connect Wallet"}
           </button>
-
-          {/* Wallet Status */}
-          {wallet ? (
-            <div
-              className="flex items-center gap-2 cursor-pointer"
-              style={{
-                padding: "var(--wb-space-8) var(--wb-space-12)",
-                background: "rgba(24, 195, 126, 0.10)",
-                border: "1px solid rgba(24, 195, 126, 0.22)",
-                borderRadius: "var(--wb-radius-md)",
-                transition: "transform var(--wb-duration-fast) var(--wb-ease-spring)",
-              }}
-              onClick={disconnectWallet}
-              title="Click to disconnect"
-            >
-              <div
-                className="w-2 h-2 rounded-full"
-                style={{
-                  background: "var(--wb-color-success)",
-                  boxShadow: "0 0 8px var(--wb-color-success)",
-                }}
-              />
-              <span
-                className="text-sm font-medium"
-                style={{ fontFamily: "var(--wb-font-mono)", color: "var(--wb-color-success)" }}
-              >
-                {displayName}
-              </span>
-            </div>
-          ) : (
-            <button
-              id="navbar-connect-wallet"
-              className="btn-primary text-sm"
-              onClick={connectWallet}
-              disabled={signingIn}
-            >
-              {signingIn ? "Signing…" : "Connect Wallet"}
-            </button>
-          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -358,29 +327,13 @@ export default function Navbar() {
             );
           })}
           <div style={{ paddingTop: "var(--wb-space-8)" }}>
-            {wallet ? (
-              <div
-                className="flex items-center gap-2 cursor-pointer rounded-lg"
-                style={{
-                  padding: "var(--wb-space-12) var(--wb-space-16)",
-                  background: "rgba(24, 195, 126, 0.10)",
-                }}
-                onClick={disconnectWallet}
-              >
-                <div className="w-2 h-2 rounded-full" style={{ background: "var(--wb-color-success)" }} />
-                <span className="text-sm font-medium" style={{ fontFamily: "var(--wb-font-mono)", color: "var(--wb-color-success)" }}>
-                  {displayName}
-                </span>
-              </div>
-            ) : (
-              <button
-                className="w-full btn-primary"
-                style={{ borderRadius: "var(--wb-radius-md)" }}
-                onClick={connectWallet}
-              >
-                Connect Wallet
-              </button>
-            )}
+            <button
+              className="w-full btn-primary"
+              style={{ borderRadius: "var(--wb-radius-md)" }}
+              onClick={connectWallet}
+            >
+              Connect Wallet
+            </button>
           </div>
         </div>
       )}

@@ -228,6 +228,20 @@ export default function Home() {
               textAlign: "center",
             }}
           >
+            <p
+              style={{
+                fontFamily: "var(--wb-font-display)",
+                fontSize: "81px",
+                fontWeight: 700,
+                lineHeight: 1.1,
+                color: "rgba(255, 255, 255, 0.6)",
+                letterSpacing: "0.01em",
+                marginBottom: "144px",
+              }}
+            >
+              WaveBlock
+            </p>
+
             <h1
               style={{
                 fontFamily: "var(--wb-font-display)",
