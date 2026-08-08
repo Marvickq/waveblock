@@ -1,0 +1,3254 @@
+@theme {
+
+  /* Colors */
+  --color-onyx-canvas: #171721;
+  --color-graphite-card: #1e1e2a;
+  --color-obsidian-button: #272735;
+  --color-slate-border: #70707d;
+  --color-mist-border: #e2e3ed;
+
+  --color-ash-text: #c3c3cc;
+  --color-ivory-text: #ededf3;
+
+  --color-cobalt: #5266eb;
+
+  --color-success: #42B883;
+  --color-warning: #F4B942;
+  --color-critical: #E35D6A;
+
+  --color-pure-white: #ffffff;
+
+  /* Typography */
+  --font-inter:
+    'Inter',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+  --font-display:
+    'Instrument Serif',
+    serif;
+
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --leading-caption: 1;
+  --tracking-caption: 0.12px;
+
+  --text-body-sm: 14px;
+  --leading-body-sm: 1;
+  --tracking-body-sm: 0.07px;
+
+  --text-body: 16px;
+  --leading-body: 1.5;
+
+  --text-body-lg: 18px;
+  --leading-body-lg: 1.35;
+
+  --text-subheading: 21px;
+  --leading-subheading: 1.35;
+
+  --text-heading-sm: 28px;
+  --leading-heading-sm: 1.2;
+  --tracking-heading-sm: 0.42px;
+
+  --text-heading: 32px;
+  --leading-heading: 1.15;
+  --tracking-heading: 0.48px;
+
+  --text-heading-lg: 42px;
+  --leading-heading-lg: 1.15;
+  --tracking-heading-lg: 0.42px;
+
+  --text-display: 65px;
+  --leading-display: 1.1;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-56: 56px;
+  --spacing-72: 72px;
+  --spacing-112: 112px;
+  --spacing-128: 128px;
+
+  /* Border Radius */
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-3xl: 32px;
+  --radius-3xl-2: 40px;
+}
+
+/* ==========================================================================
+   WaveBlock 2.0
+   theme.css
+   Part 1
+   Global Foundation
+   ========================================================================== */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--wb-color-background);
+  color: var(--wb-color-text-primary);
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-body-md);
+  line-height: var(--wb-line-body);
+  letter-spacing: var(--wb-letter-normal);
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
+
+  transition:
+    background var(--wb-motion-normal),
+    color var(--wb-motion-normal);
+}
+
+
+/* =========================================================
+   ROOT APP
+========================================================= */
+
+#__next,
+main {
+  min-height: 100vh;
+  position: relative;
+}
+
+section {
+  position: relative;
+  padding:
+    var(--wb-space-80) 0;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.wb-container {
+
+  width: min(var(--wb-layout-container),
+      calc(100% - 64px));
+
+  margin-inline: auto;
+}
+
+.wb-container-sm {
+
+  width: min(960px,
+      calc(100% - 64px));
+
+  margin-inline: auto;
+}
+
+.wb-container-lg {
+
+  width: min(1600px,
+      calc(100% - 64px));
+
+  margin-inline: auto;
+}
+
+
+/* =========================================================
+   HERO VIDEO
+========================================================= */
+
+.wb-hero {
+
+  position: relative;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  overflow: hidden;
+
+  isolation: isolate;
+}
+
+
+/* blockchain looping video */
+
+.wb-hero video {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  z-index: var(--wb-z-video);
+
+  filter:
+
+    brightness(var(--wb-video-brightness)) contrast(var(--wb-video-contrast)) blur(var(--wb-video-blur));
+
+  transform: translateZ(0);
+
+  will-change: transform;
+
+  pointer-events: none;
+}
+
+
+/* overlay */
+
+.wb-hero::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: var(--wb-z-overlay);
+
+  background:
+
+    linear-gradient(to bottom,
+
+      rgba(4, 8, 20, .10),
+
+      rgba(4, 8, 20, .48),
+
+      rgba(4, 8, 20, .78));
+
+}
+
+
+/* readability */
+
+.wb-hero::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+
+    radial-gradient(circle at top,
+
+      rgba(255, 255, 255, .05),
+
+      transparent 55%);
+
+  z-index: var(--wb-z-overlay);
+}
+
+
+/* content */
+
+.wb-hero-content {
+
+  position: relative;
+
+  z-index: 20;
+
+  max-width: 760px;
+
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.wb-navbar {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: var(--wb-navbar-height);
+
+  z-index: var(--wb-z-navbar);
+
+  display: flex;
+
+  align-items: center;
+
+  transition:
+
+    background .25s ease,
+
+    backdrop-filter .25s ease,
+
+    border-color .25s ease,
+
+    box-shadow .25s ease;
+}
+
+
+/* scrolled */
+
+.wb-navbar.scrolled {
+
+  backdrop-filter:
+
+    blur(18px);
+
+  -webkit-backdrop-filter:
+
+    blur(18px);
+
+  background:
+
+    rgba(9, 13, 28, .74);
+
+  border-bottom:
+
+    1px solid rgba(255, 255, 255, .06);
+
+  box-shadow:
+
+    0 10px 40px rgba(0, 0, 0, .22);
+}
+
+
+/* inner */
+
+.wb-navbar-inner {
+
+  width: min(var(--wb-layout-container),
+
+      calc(100% - 56px));
+
+  margin: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 40px;
+}
+
+
+/* links */
+
+.wb-nav-links {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 34px;
+}
+
+.wb-nav-links a {
+
+  color: var(--wb-color-text-secondary);
+
+  font-weight: 500;
+
+  transition:
+
+    color .2s ease,
+
+    transform .2s ease;
+}
+
+.wb-nav-links a:hover {
+
+  color: var(--wb-color-text-primary);
+
+  transform: translateY(-1px);
+}
+
+.wb-nav-links a.active {
+
+  color: var(--wb-color-primary);
+}
+
+
+/* right actions */
+
+.wb-navbar-actions {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+}
+
+
+/* =========================================================
+   GLASS
+========================================================= */
+
+.wb-glass {
+
+  background:
+
+    rgba(255, 255, 255, .045);
+
+  border:
+
+    1px solid rgba(255, 255, 255, .08);
+
+  backdrop-filter:
+
+    blur(18px);
+
+  -webkit-backdrop-filter:
+
+    blur(18px);
+
+  box-shadow:
+
+    var(--wb-shadow-glass);
+}
+
+
+/* =========================================================
+   ELEVATION
+========================================================= */
+
+.elevation-1 {
+
+  box-shadow:
+
+    var(--wb-shadow-sm);
+}
+
+.elevation-2 {
+
+  box-shadow:
+
+    var(--wb-shadow-md);
+}
+
+.elevation-3 {
+
+  box-shadow:
+
+    var(--wb-shadow-lg);
+}
+
+.elevation-4 {
+
+  box-shadow:
+
+    var(--wb-shadow-xl);
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.wb-divider {
+
+  width: 100%;
+
+  height: 1px;
+
+  background:
+
+    var(--wb-color-divider);
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.wb-grid {
+
+  display: grid;
+
+  gap: var(--wb-grid-gap);
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+
+  background:
+
+    var(--wb-color-selection);
+
+  color:
+
+    white;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+
+  width: 10px;
+
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+
+  background:
+
+    transparent;
+}
+
+::-webkit-scrollbar-thumb {
+
+  background:
+
+    rgba(255, 255, 255, .14);
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+  background:
+
+    rgba(255, 255, 255, .24);
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+:focus-visible {
+
+  outline:
+
+    var(--wb-accessible-outline);
+
+  outline-offset:
+
+    var(--wb-accessible-offset);
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion:reduce) {
+
+  * {
+
+    animation: none !important;
+
+    transition: none !important;
+
+    scroll-behavior: auto !important;
+
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1024px) {
+
+  .wb-nav-links {
+
+    display: none;
+
+  }
+
+  .wb-container {
+
+    width: calc(100% - 40px);
+
+  }
+
+}
+
+@media(max-width:768px) {
+
+  section {
+
+    padding: var(--wb-space-56) 0;
+
+  }
+
+  .wb-container {
+
+    width: calc(100% - 28px);
+
+  }
+
+}
+
+/* =============================================================================
+   WAVEBLOCK 2.0
+   theme.css
+   PART 2A
+   Buttons • Cards • Forms • Inputs • Search • Dropdowns
+   Uses ONLY variables from variables.css
+============================================================================= */
+
+
+/* =============================================================================
+   BUTTON FOUNDATION
+============================================================================= */
+
+.wb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wb-space-8);
+
+  min-height: 48px;
+  padding: 0 var(--wb-space-20);
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  border-radius: var(--wb-radius-lg);
+
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-button);
+  font-weight: 600;
+
+  transition:
+    background var(--wb-motion-fast),
+    color var(--wb-motion-fast),
+    border-color var(--wb-motion-fast),
+    transform var(--wb-motion-fast),
+    box-shadow var(--wb-motion-fast);
+
+  user-select: none;
+  white-space: nowrap;
+}
+
+.wb-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.wb-btn:hover {
+  transform: translateY(-2px);
+}
+
+.wb-btn:active {
+  transform: translateY(0);
+}
+
+.wb-btn:disabled {
+  opacity: .55;
+  pointer-events: none;
+}
+
+
+/* =============================================================================
+   PRIMARY BUTTON
+============================================================================= */
+
+.wb-btn-primary {
+
+  background: var(--wb-color-primary);
+
+  color: var(--wb-color-text-inverse);
+
+  box-shadow: var(--wb-shadow-sm);
+}
+
+.wb-btn-primary:hover {
+
+  background: var(--wb-color-primary-hover);
+
+  box-shadow: var(--wb-shadow-hover);
+}
+
+.wb-btn-primary:active {
+
+  background: var(--wb-color-primary-active);
+}
+
+
+/* =============================================================================
+   SECONDARY
+============================================================================= */
+
+.wb-btn-secondary {
+
+  background: var(--wb-color-surface);
+
+  color: var(--wb-color-text-primary);
+
+  border: 1px solid var(--wb-color-border);
+}
+
+.wb-btn-secondary:hover {
+
+  background: var(--wb-color-surface-hover);
+}
+
+
+/* =============================================================================
+   GHOST
+============================================================================= */
+
+.wb-btn-ghost {
+
+  background: transparent;
+
+  color: var(--wb-color-text-primary);
+}
+
+.wb-btn-ghost:hover {
+
+  background: var(--wb-color-surface-hover);
+}
+
+
+/* =============================================================================
+   OUTLINE
+============================================================================= */
+
+.wb-btn-outline {
+
+  background: transparent;
+
+  border: 1px solid var(--wb-color-border);
+
+  color: var(--wb-color-text-primary);
+}
+
+.wb-btn-outline:hover {
+
+  border-color: var(--wb-color-primary);
+
+  color: var(--wb-color-primary);
+}
+
+
+/* =============================================================================
+   GRADIENT
+============================================================================= */
+
+.wb-btn-gradient {
+
+  background: var(--wb-gradient-primary);
+
+  color: var(--wb-color-text-inverse);
+
+  box-shadow: var(--wb-shadow-lg);
+}
+
+.wb-btn-gradient:hover {
+
+  transform: translateY(-3px);
+}
+
+
+/* =============================================================================
+   WALLET CONNECT
+============================================================================= */
+
+.wb-btn-wallet {
+
+  background: var(--wb-wallet);
+
+  color: white;
+
+  border-radius: 999px;
+}
+
+
+/* =============================================================================
+   AI ACTION
+============================================================================= */
+
+.wb-btn-ai {
+
+  background: var(--wb-ai-gradient);
+
+  color: white;
+
+  box-shadow: var(--wb-ai-glow);
+}
+
+
+/* =============================================================================
+   BLOCKCHAIN
+============================================================================= */
+
+.wb-btn-chain {
+
+  background: var(--wb-blockchain);
+
+  color: white;
+}
+
+
+/* =============================================================================
+   DANGER
+============================================================================= */
+
+.wb-btn-danger {
+
+  background: var(--wb-danger);
+
+  color: white;
+}
+
+
+/* =============================================================================
+   LOADING BUTTON
+============================================================================= */
+
+.wb-btn-loading {
+
+  position: relative;
+
+  color: transparent !important;
+}
+
+.wb-btn-loading::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(255, 255, 255, .3);
+
+  border-top-color: white;
+
+  animation: wb-spin .8s linear infinite;
+}
+
+
+/* =============================================================================
+   CARD FOUNDATION
+============================================================================= */
+
+.wb-card {
+
+  background: var(--wb-color-card);
+
+  border: 1px solid var(--wb-color-border);
+
+  border-radius: var(--wb-radius-xl);
+
+  padding: var(--wb-space-24);
+
+  box-shadow: var(--wb-shadow-card);
+
+  transition:
+    transform var(--wb-motion-fast),
+    border-color var(--wb-motion-fast),
+    box-shadow var(--wb-motion-fast),
+    background var(--wb-motion-fast);
+}
+
+.wb-card:hover {
+
+  transform: translateY(-4px);
+
+  border-color: var(--wb-color-primary);
+
+  box-shadow: var(--wb-shadow-hover);
+}
+
+
+/* =============================================================================
+   CARD HEADER
+============================================================================= */
+
+.wb-card-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: var(--wb-space-20);
+}
+
+.wb-card-title {
+
+  font-size: var(--wb-text-h5);
+
+  font-weight: 700;
+}
+
+
+/* =============================================================================
+   CARD BODY
+============================================================================= */
+
+.wb-card-body {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: var(--wb-space-16);
+}
+
+
+/* =============================================================================
+   CARD FOOTER
+============================================================================= */
+
+.wb-card-footer {
+
+  margin-top: var(--wb-space-24);
+
+  padding-top: var(--wb-space-20);
+
+  border-top: 1px solid var(--wb-color-divider);
+}
+
+
+/* =============================================================================
+   GLASS CARD
+============================================================================= */
+
+.wb-card-glass {
+
+  background: rgba(255, 255, 255, .04);
+
+  backdrop-filter: blur(var(--wb-blur-glass));
+
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+
+
+/* =============================================================================
+   DASHBOARD CARD
+============================================================================= */
+
+.wb-dashboard-card {
+
+  min-height: 260px;
+}
+
+
+/* =============================================================================
+   PORTFOLIO CARD
+============================================================================= */
+
+.wb-portfolio-card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: var(--wb-space-20);
+}
+
+
+/* =============================================================================
+   AI CARD
+============================================================================= */
+
+.wb-ai-card {
+
+  background: var(--wb-ai-background);
+
+  border-color: var(--wb-ai-border);
+}
+
+
+/* =============================================================================
+   REPORT CARD
+============================================================================= */
+
+.wb-report-card {
+
+  border-left: 4px solid var(--wb-color-primary);
+}
+
+
+/* =============================================================================
+   WALLET CARD
+============================================================================= */
+
+.wb-wallet-card {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+
+/* =============================================================================
+   INPUT FOUNDATION
+============================================================================= */
+
+.wb-input,
+.wb-select,
+.wb-textarea {
+
+  width: 100%;
+
+  background: var(--wb-color-surface);
+
+  border: 1px solid var(--wb-color-border);
+
+  border-radius: var(--wb-radius-lg);
+
+  padding: 14px 16px;
+
+  color: var(--wb-color-text-primary);
+
+  font-size: var(--wb-text-body-md);
+
+  transition:
+    border-color var(--wb-motion-fast),
+    background var(--wb-motion-fast),
+    box-shadow var(--wb-motion-fast);
+}
+
+.wb-input::placeholder,
+.wb-textarea::placeholder {
+
+  color: var(--wb-color-text-muted);
+}
+
+.wb-input:hover,
+.wb-select:hover,
+.wb-textarea:hover {
+
+  background: var(--wb-color-surface-hover);
+}
+
+.wb-input:focus,
+.wb-select:focus,
+.wb-textarea:focus {
+
+  outline: none;
+
+  border-color: var(--wb-color-primary);
+
+  box-shadow: 0 0 0 3px rgba(79, 124, 255, .15);
+}
+
+
+/* =============================================================================
+   SEARCH
+============================================================================= */
+
+.wb-search {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+}
+
+.wb-search svg {
+
+  position: absolute;
+
+  left: 16px;
+
+  color: var(--wb-color-text-muted);
+}
+
+.wb-search input {
+
+  padding-left: 48px;
+}
+
+
+/* =============================================================================
+   LABEL
+============================================================================= */
+
+.wb-label {
+
+  display: block;
+
+  margin-bottom: var(--wb-space-8);
+
+  font-weight: 600;
+
+  color: var(--wb-color-text-secondary);
+}
+
+
+/* =============================================================================
+   FORM GROUP
+============================================================================= */
+
+.wb-form-group {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: var(--wb-space-8);
+
+  margin-bottom: var(--wb-space-20);
+}
+
+
+/* =============================================================================
+   VALIDATION
+============================================================================= */
+
+.wb-input-error {
+
+  border-color: var(--wb-danger);
+}
+
+.wb-input-success {
+
+  border-color: var(--wb-success);
+}
+
+.wb-error-text {
+
+  color: var(--wb-danger);
+
+  font-size: var(--wb-text-caption);
+}
+
+.wb-success-text {
+
+  color: var(--wb-success);
+
+  font-size: var(--wb-text-caption);
+}
+
+
+/* =============================================================================
+   DROPDOWN
+============================================================================= */
+
+.wb-dropdown {
+
+  background: var(--wb-color-card);
+
+  border: 1px solid var(--wb-color-border);
+
+  border-radius: var(--wb-radius-lg);
+
+  overflow: hidden;
+
+  box-shadow: var(--wb-shadow-dropdown);
+}
+
+.wb-dropdown-item {
+
+  padding: 14px 18px;
+
+  cursor: pointer;
+
+  transition: background var(--wb-motion-fast);
+}
+
+.wb-dropdown-item:hover {
+
+  background: var(--wb-color-surface-hover);
+}
+
+
+/* =============================================================================
+   TEXTAREA
+============================================================================= */
+
+.wb-textarea {
+
+  resize: vertical;
+
+  min-height: 120px;
+}
+
+
+/* =============================================================================
+   COMBOBOX
+============================================================================= */
+
+.wb-combobox {
+
+  position: relative;
+}
+
+
+/* =============================================================================
+   FIELDSET
+============================================================================= */
+
+fieldset {
+
+  border: none;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: var(--wb-space-20);
+}
+
+/* =============================================================================
+   WAVEBLOCK 2.0
+   theme.css
+   PART 2B
+   Enterprise Tables • Badges • Trust Score • Progress •
+   Skeleton • Empty State • Error State • Loading
+============================================================================= */
+
+
+/* =============================================================================
+   TABLE
+============================================================================= */
+
+.wb-table-container {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid var(--wb-color-border);
+  border-radius: var(--wb-radius-xl);
+  background: var(--wb-color-card);
+  box-shadow: var(--wb-shadow-card);
+}
+
+.wb-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.wb-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--wb-color-surface);
+  z-index: 2;
+}
+
+.wb-table th {
+
+  text-align: left;
+
+  padding: 18px 20px;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: var(--wb-color-text-secondary);
+
+  text-transform: uppercase;
+
+  letter-spacing: .06em;
+
+  border-bottom: 1px solid var(--wb-color-divider);
+}
+
+.wb-table td {
+
+  padding: 18px 20px;
+
+  border-bottom: 1px solid var(--wb-color-divider);
+
+  color: var(--wb-color-text-primary);
+
+  font-size: var(--wb-text-body-sm);
+}
+
+.wb-table tbody tr {
+
+  transition:
+
+    background var(--wb-motion-fast),
+
+    transform var(--wb-motion-fast);
+}
+
+.wb-table tbody tr:hover {
+
+  background: var(--wb-color-surface-hover);
+}
+
+.wb-table-striped tbody tr:nth-child(even) {
+
+  background: rgba(255, 255, 255, .015);
+}
+
+.wb-table-density-compact td {
+
+  padding: 12px 16px;
+}
+
+.wb-table-density-comfort td {
+
+  padding: 22px 22px;
+}
+
+
+/* =============================================================================
+   SORT BUTTON
+============================================================================= */
+
+.wb-sort {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  cursor: pointer;
+}
+
+.wb-sort:hover {
+
+  color: var(--wb-color-primary);
+}
+
+
+/* =============================================================================
+   PAGINATION
+============================================================================= */
+
+.wb-pagination {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  padding: 20px;
+}
+
+
+/* =============================================================================
+   BADGES
+============================================================================= */
+
+.wb-badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+
+    var(--wb-badge-padding-y) var(--wb-badge-padding-x);
+
+  border-radius: var(--wb-badge-radius);
+
+  font-size: var(--wb-badge-font-size);
+
+  font-weight: var(--wb-badge-font-weight);
+
+  white-space: nowrap;
+}
+
+
+/* SAFE */
+
+.wb-badge-safe {
+
+  background: var(--wb-badge-safe-bg);
+
+  color: var(--wb-badge-safe-color);
+}
+
+
+/* VERIFIED */
+
+.wb-badge-verified {
+
+  background: rgba(22, 163, 74, .12);
+
+  color: var(--wb-success);
+}
+
+
+/* WARNING */
+
+.wb-badge-warning {
+
+  background: var(--wb-badge-warning-bg);
+
+  color: var(--wb-badge-warning-color);
+}
+
+
+/* DANGER */
+
+.wb-badge-danger {
+
+  background: var(--wb-badge-danger-bg);
+
+  color: var(--wb-badge-danger-color);
+}
+
+
+/* INFO */
+
+.wb-badge-info {
+
+  background: var(--wb-badge-info-bg);
+
+  color: var(--wb-badge-info-color);
+}
+
+
+/* HONEYPOT */
+
+.wb-badge-honeypot {
+
+  background: rgba(220, 38, 38, .12);
+
+  color: var(--wb-danger);
+}
+
+
+/* PROXY */
+
+.wb-badge-proxy {
+
+  background: rgba(139, 92, 246, .12);
+
+  color: #A78BFA;
+}
+
+
+/* LIQUIDITY */
+
+.wb-badge-liquidity {
+
+  background: rgba(16, 185, 129, .12);
+
+  color: #10B981;
+}
+
+
+/* =============================================================================
+   TRUST SCORE
+============================================================================= */
+
+.wb-trust {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+.wb-trust-circle {
+
+  width: var(--wb-score-size-lg);
+
+  height: var(--wb-score-size-lg);
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 34px;
+
+  font-weight: 700;
+
+  border:
+
+    var(--wb-score-ring-width) solid var(--wb-score-bg);
+
+  transition:
+
+    border-color .3s ease;
+}
+
+.wb-score-excellent {
+
+  border-color: var(--wb-score-excellent);
+
+  color: var(--wb-score-excellent);
+}
+
+.wb-score-good {
+
+  border-color: var(--wb-score-good);
+
+  color: var(--wb-score-good);
+}
+
+.wb-score-review {
+
+  border-color: var(--wb-score-review);
+
+  color: var(--wb-score-review);
+}
+
+.wb-score-risk {
+
+  border-color: var(--wb-score-risk);
+
+  color: var(--wb-score-risk);
+}
+
+.wb-score-critical {
+
+  border-color: var(--wb-score-critical);
+
+  color: var(--wb-score-critical);
+}
+
+
+/* =============================================================================
+   RISK CARD
+============================================================================= */
+
+.wb-risk {
+
+  display: flex;
+
+  gap: 16px;
+
+  align-items: flex-start;
+
+  padding: var(--wb-risk-card-padding);
+
+  border-radius: 18px;
+}
+
+.wb-risk-safe {
+
+  background: var(--wb-risk-safe-bg);
+
+  border: 1px solid var(--wb-risk-safe-border);
+}
+
+.wb-risk-warning {
+
+  background: var(--wb-risk-warning-bg);
+
+  border: 1px solid var(--wb-risk-warning-border);
+}
+
+.wb-risk-danger {
+
+  background: var(--wb-risk-danger-bg);
+
+  border: 1px solid var(--wb-risk-danger-border);
+}
+
+
+/* =============================================================================
+   PROGRESS
+============================================================================= */
+
+.wb-progress {
+
+  width: 100%;
+
+  height: var(--wb-progress-height);
+
+  background: var(--wb-progress-track);
+
+  border-radius: 999px;
+
+  overflow: hidden;
+}
+
+.wb-progress-fill {
+
+  height: 100%;
+
+  width: 0;
+
+  border-radius: 999px;
+
+  background: var(--wb-progress-fill);
+
+  transition: width .5s ease;
+}
+
+
+/* =============================================================================
+   LOADING SPINNER
+============================================================================= */
+
+.wb-spinner {
+
+  width: var(--wb-loader-size);
+
+  height: var(--wb-loader-size);
+
+  border-radius: 50%;
+
+  border:
+
+    var(--wb-spinner-width) solid rgba(255, 255, 255, .15);
+
+  border-top-color:
+
+    var(--wb-loader-color);
+
+  animation: wb-spin .9s linear infinite;
+}
+
+
+/* =============================================================================
+   SKELETON
+============================================================================= */
+
+.wb-skeleton {
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+
+    var(--wb-skeleton-bg);
+
+  border-radius:
+
+    var(--wb-skeleton-radius);
+}
+
+.wb-skeleton::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  transform: translateX(-100%);
+
+  background:
+
+    linear-gradient(90deg,
+
+      transparent,
+
+      var(--wb-skeleton-highlight),
+
+      transparent);
+
+  animation:
+
+    wb-skeleton var(--wb-skeleton-duration) infinite;
+}
+
+
+/* =============================================================================
+   EMPTY STATE
+============================================================================= */
+
+.wb-empty {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  gap: var(--wb-empty-gap);
+
+  padding: 64px 24px;
+}
+
+.wb-empty svg {
+
+  width: var(--wb-empty-icon-size);
+
+  height: var(--wb-empty-icon-size);
+
+  opacity: .7;
+}
+
+.wb-empty h3 {
+
+  font-size: var(--wb-empty-title-size);
+}
+
+.wb-empty p {
+
+  color: var(--wb-empty-text-color);
+
+  max-width: 420px;
+}
+
+
+/* =============================================================================
+   ERROR
+============================================================================= */
+
+.wb-error {
+
+  display: flex;
+
+  gap: 18px;
+
+  align-items: flex-start;
+
+  padding: 24px;
+
+  border-radius: var(--wb-error-radius);
+
+  background: var(--wb-error-bg);
+
+  border: 1px solid var(--wb-error-border);
+}
+
+.wb-error svg {
+
+  width: var(--wb-error-icon-size);
+
+  height: var(--wb-error-icon-size);
+
+  color: var(--wb-danger);
+}
+
+
+/* =============================================================================
+   SUCCESS
+============================================================================= */
+
+.wb-success {
+
+  display: flex;
+
+  gap: 18px;
+
+  padding: 24px;
+
+  border-radius: 18px;
+
+  background: var(--wb-success-bg);
+
+  border: 1px solid var(--wb-success-border);
+}
+
+
+/* =============================================================================
+   ANIMATIONS
+============================================================================= */
+
+@keyframes wb-spin {
+
+  from {
+
+    transform: rotate(0deg);
+
+  }
+
+  to {
+
+    transform: rotate(360deg);
+
+  }
+}
+
+@keyframes wb-skeleton {
+
+  100% {
+
+    transform: translateX(100%);
+  }
+}
+
+/* =============================================================================
+   WAVEBLOCK 2.0
+   theme.css
+   PART 3A
+   Dashboard • Portfolio • Wallet • Trust Score
+   Uses ONLY variables from variables.css
+============================================================================= */
+
+
+/* =============================================================================
+   DASHBOARD LAYOUT
+============================================================================= */
+
+.wb-dashboard {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: var(--wb-dashboard-section-gap);
+
+  width: 100%;
+}
+
+.wb-dashboard-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(12, minmax(0, 1fr));
+
+  gap: var(--wb-dashboard-gap);
+}
+
+.wb-col-12 {
+  grid-column: span 12;
+}
+
+.wb-col-8 {
+  grid-column: span 8;
+}
+
+.wb-col-6 {
+  grid-column: span 6;
+}
+
+.wb-col-4 {
+  grid-column: span 4;
+}
+
+.wb-col-3 {
+  grid-column: span 3;
+}
+
+.wb-dashboard-widget {
+
+  background: var(--wb-color-card);
+
+  border: 1px solid var(--wb-color-border);
+
+  border-radius: var(--wb-dashboard-widget-radius);
+
+  padding: var(--wb-dashboard-widget-padding);
+
+  box-shadow: var(--wb-shadow-card);
+
+  transition:
+    transform var(--wb-motion-fast),
+    border-color var(--wb-motion-fast),
+    box-shadow var(--wb-motion-fast);
+}
+
+.wb-dashboard-widget:hover {
+
+  transform: translateY(-4px);
+
+  border-color: var(--wb-color-primary);
+
+  box-shadow: var(--wb-shadow-hover);
+}
+
+
+/* =============================================================================
+   METRIC CARDS
+============================================================================= */
+
+.wb-metric {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.wb-metric-label {
+
+  color: var(--wb-color-text-muted);
+
+  font-size: 13px;
+
+  text-transform: uppercase;
+
+  letter-spacing: .08em;
+}
+
+.wb-metric-value {
+
+  font-size: var(--wb-text-metric-lg);
+
+  font-weight: 700;
+
+  color: var(--wb-color-text-primary);
+}
+
+.wb-metric-change {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.wb-metric-positive {
+
+  color: var(--wb-success);
+}
+
+.wb-metric-negative {
+
+  color: var(--wb-danger);
+}
+
+
+/* =============================================================================
+   SEARCH RESULT CARD
+============================================================================= */
+
+.wb-token-card {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.wb-token-info {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.wb-token-name {
+
+  font-size: 20px;
+
+  font-weight: 700;
+}
+
+.wb-token-address {
+
+  font-family: var(--wb-font-mono);
+
+  color: var(--wb-color-text-muted);
+
+  font-size: 13px;
+}
+
+
+/* =============================================================================
+   PORTFOLIO
+============================================================================= */
+
+.wb-portfolio {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 32px;
+}
+
+.wb-portfolio-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.wb-portfolio-title {
+
+  font-size: 30px;
+
+  font-weight: 700;
+}
+
+.wb-portfolio-grid {
+
+  display: grid;
+
+  grid-template-columns:
+
+    repeat(auto-fit, minmax(320px, 1fr));
+
+  gap: 24px;
+}
+
+
+/* =============================================================================
+   HOLDINGS
+============================================================================= */
+
+.wb-holding {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 18px 0;
+
+  border-bottom: 1px solid var(--wb-color-divider);
+}
+
+.wb-holding:last-child {
+
+  border-bottom: none;
+}
+
+.wb-holding-left {
+
+  display: flex;
+
+  gap: 16px;
+
+  align-items: center;
+}
+
+.wb-token-icon {
+
+  width: 48px;
+
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: var(--wb-color-surface);
+
+  display: grid;
+
+  place-items: center;
+
+  font-weight: 700;
+}
+
+.wb-holding-name {
+
+  font-weight: 600;
+}
+
+.wb-holding-symbol {
+
+  color: var(--wb-color-text-muted);
+
+  font-size: 13px;
+}
+
+.wb-holding-value {
+
+  text-align: right;
+}
+
+.wb-holding-balance {
+
+  font-weight: 700;
+}
+
+.wb-holding-usd {
+
+  color: var(--wb-color-text-muted);
+
+  font-size: 13px;
+}
+
+
+/* =============================================================================
+   PORTFOLIO HEALTH
+============================================================================= */
+
+.wb-health {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 20px;
+}
+
+.wb-health-title {
+
+  font-size: 18px;
+
+  font-weight: 600;
+}
+
+.wb-health-score {
+
+  font-size: 52px;
+
+  font-weight: 800;
+}
+
+.wb-health-description {
+
+  text-align: center;
+
+  color: var(--wb-color-text-muted);
+
+  max-width: 320px;
+}
+
+
+/* =============================================================================
+   ALLOCATION
+============================================================================= */
+
+.wb-allocation {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.wb-allocation-row {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.wb-allocation-label {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.wb-allocation-dot {
+
+  width: 12px;
+
+  height: 12px;
+
+  border-radius: 50%;
+}
+
+
+/* =============================================================================
+   WALLET
+============================================================================= */
+
+.wb-wallet {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 24px;
+}
+
+.wb-wallet-left {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+}
+
+.wb-wallet-avatar {
+
+  width: var(--wb-wallet-avatar-size);
+
+  height: var(--wb-wallet-avatar-size);
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg,
+      var(--wb-wallet),
+      var(--wb-color-primary));
+
+  display: grid;
+
+  place-items: center;
+
+  color: #fff;
+
+  font-weight: 700;
+}
+
+.wb-wallet-address {
+
+  font-family: var(--wb-wallet-address-font);
+
+  color: var(--wb-color-text-secondary);
+
+  font-size: 13px;
+}
+
+.wb-wallet-balance {
+
+  font-size: var(--wb-wallet-balance-font);
+
+  font-weight: 700;
+}
+
+.wb-wallet-status {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.wb-wallet-status::before {
+
+  content: "";
+
+  width: 8px;
+
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: var(--wb-wallet-status-connected);
+}
+
+
+/* =============================================================================
+   TRUST SCORE PANEL
+============================================================================= */
+
+.wb-trust-panel {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 32px;
+}
+
+.wb-trust-ring {
+
+  width: var(--wb-score-size-xl);
+
+  height: var(--wb-score-size-xl);
+
+  border-radius: 50%;
+
+  display: grid;
+
+  place-items: center;
+
+  background: conic-gradient(var(--wb-score-good) 0deg,
+      var(--wb-score-good) 270deg,
+      rgba(255, 255, 255, .08) 270deg);
+
+  padding: 10px;
+}
+
+.wb-trust-ring-inner {
+
+  width: 100%;
+
+  height: 100%;
+
+  border-radius: 50%;
+
+  background: var(--wb-color-card);
+
+  display: grid;
+
+  place-items: center;
+}
+
+.wb-trust-number {
+
+  font-size: 42px;
+
+  font-weight: 800;
+}
+
+.wb-trust-details {
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+
+/* =============================================================================
+   RISK BREAKDOWN
+============================================================================= */
+
+.wb-risk-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.wb-risk-item {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.wb-risk-head {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  font-size: 14px;
+
+  color: var(--wb-color-text-secondary);
+}
+
+
+/* =============================================================================
+   DASHBOARD HEADER
+============================================================================= */
+
+.wb-page-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 32px;
+}
+
+.wb-page-title {
+
+  font-size: 38px;
+
+  font-weight: 700;
+
+  letter-spacing: -.03em;
+}
+
+.wb-page-subtitle {
+
+  color: var(--wb-color-text-muted);
+
+  margin-top: 6px;
+}
+
+
+/* =============================================================================
+   RESPONSIVE
+============================================================================= */
+
+@media(max-width:1200px) {
+
+  .wb-col-8,
+  .wb-col-6,
+  .wb-col-4,
+  .wb-col-3 {
+
+    grid-column: span 12;
+
+  }
+
+  .wb-trust-panel {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+  }
+
+}
+
+@media(max-width:768px) {
+
+  .wb-dashboard-grid {
+
+    gap: 18px;
+
+  }
+
+  .wb-page-title {
+
+    font-size: 30px;
+
+  }
+
+  .wb-wallet {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+  }
+
+  .wb-portfolio-header {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+  }
+
+}
+
+/* =============================================================================
+   WAVEBLOCK 2.0
+   theme.css
+   PART 3B
+   AI Copilot • Guardian • Reports • Blockchain Widgets • Charts
+   Uses ONLY variables from variables.css
+=============================================================================*/
+
+
+/*=============================================================================
+   AI COPILOT
+=============================================================================*/
+
+.wb-ai {
+
+  display: flex;
+
+  flex-direction: column;
+
+  height: 100%;
+
+  background: var(--wb-color-card);
+
+  border: 1px solid var(--wb-color-border);
+
+  border-radius: var(--wb-radius-2xl);
+
+  overflow: hidden;
+
+  box-shadow: var(--wb-shadow-card);
+
+}
+
+.wb-ai-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 20px 24px;
+
+  border-bottom: 1px solid var(--wb-color-divider);
+
+  background: var(--wb-ai-background);
+
+}
+
+.wb-ai-title {
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+.wb-ai-body {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+
+  padding: 24px;
+
+  overflow-y: auto;
+
+  flex: 1;
+
+}
+
+.wb-ai-message {
+
+  display: flex;
+
+  gap: 14px;
+
+  max-width: 82%;
+
+  animation: wbFadeUp var(--wb-motion-normal);
+
+}
+
+.wb-ai-message.user {
+
+  align-self: flex-end;
+
+  flex-direction: row-reverse;
+
+}
+
+.wb-ai-avatar {
+
+  width: 42px;
+
+  height: 42px;
+
+  border-radius: 50%;
+
+  display: grid;
+
+  place-items: center;
+
+  background: var(--wb-ai-gradient);
+
+  color: #fff;
+
+  font-weight: 700;
+
+  flex-shrink: 0;
+
+}
+
+.wb-ai-bubble {
+
+  padding: 16px 18px;
+
+  border-radius: 18px;
+
+  background: var(--wb-ai-background);
+
+  border: 1px solid var(--wb-ai-border);
+
+  line-height: 1.7;
+
+  font-size: 15px;
+
+}
+
+.wb-ai-message.user .wb-ai-bubble {
+
+  background: var(--wb-color-primary);
+
+  color: white;
+
+  border: none;
+
+}
+
+.wb-ai-input {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 20px;
+
+  border-top: 1px solid var(--wb-color-divider);
+
+  background: var(--wb-color-card);
+
+}
+
+.wb-ai-input input {
+
+  flex: 1;
+
+}
+
+.wb-ai-suggestions {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 8px;
+
+}
+
+.wb-ai-chip {
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  background: var(--wb-color-surface);
+
+  border: 1px solid var(--wb-color-border);
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition: all var(--wb-motion-fast);
+
+}
+
+.wb-ai-chip:hover {
+
+  background: var(--wb-color-primary);
+
+  color: #fff;
+
+  border-color: transparent;
+
+}
+
+
+/*=============================================================================
+   TRANSACTION GUARDIAN
+=============================================================================*/
+
+.wb-guardian {
+
+  display: grid;
+
+  grid-template-columns: 1fr 360px;
+
+  gap: 28px;
+
+}
+
+.wb-guardian-card {
+
+  background: var(--wb-color-card);
+
+  border: 1px solid var(--wb-color-border);
+
+  border-radius: var(--wb-radius-xl);
+
+  padding: 24px;
+
+  box-shadow: var(--wb-shadow-card);
+
+}
+
+.wb-guardian-summary {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+}
+
+.wb-guardian-risk {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid var(--wb-color-divider);
+
+}
+
+.wb-guardian-risk:last-child {
+
+  border-bottom: none;
+
+}
+
+.wb-risk-safe {
+
+  color: var(--wb-score-excellent);
+
+}
+
+.wb-risk-warning {
+
+  color: var(--wb-score-review);
+
+}
+
+.wb-risk-danger {
+
+  color: var(--wb-score-critical);
+
+}
+
+.wb-gas-estimate {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  padding: 18px;
+
+  background: var(--wb-color-surface);
+
+  border-radius: var(--wb-radius-lg);
+
+  margin-top: 16px;
+
+}
+
+
+/*=============================================================================
+   REPORTS
+=============================================================================*/
+
+.wb-report-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+}
+
+.wb-report {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 20px;
+
+  border: 1px solid var(--wb-color-border);
+
+  border-radius: var(--wb-radius-xl);
+
+  background: var(--wb-color-card);
+
+  transition: all var(--wb-motion-fast);
+
+}
+
+.wb-report:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow: var(--wb-shadow-hover);
+
+  border-color: var(--wb-color-primary);
+
+}
+
+.wb-report-left {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+
+}
+
+.wb-report-title {
+
+  font-size: 17px;
+
+  font-weight: 600;
+
+}
+
+.wb-report-address {
+
+  font-family: var(--wb-font-mono);
+
+  font-size: 13px;
+
+  color: var(--wb-color-text-muted);
+
+}
+
+.wb-report-actions {
+
+  display: flex;
+
+  gap: 10px;
+
+}
+
+
+/*=============================================================================
+   BLOCKCHAIN WIDGETS
+=============================================================================*/
+
+.wb-chain-widget {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  padding: 22px;
+
+  background: var(--wb-color-card);
+
+  border-radius: var(--wb-radius-xl);
+
+  border: 1px solid var(--wb-color-border);
+
+}
+
+.wb-chain-row {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  font-size: 14px;
+
+}
+
+.wb-chain-label {
+
+  color: var(--wb-color-text-muted);
+
+}
+
+.wb-chain-value {
+
+  font-family: var(--wb-font-mono);
+
+  font-weight: 600;
+
+  word-break: break-all;
+
+}
+
+.wb-hash {
+
+  padding: 8px 12px;
+
+  background: var(--wb-color-surface);
+
+  border-radius: var(--wb-radius-md);
+
+  font-family: var(--wb-font-mono);
+
+  font-size: 12px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+}
+
+
+/*=============================================================================
+   TRUST BADGES
+=============================================================================*/
+
+.wb-status {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+}
+
+.wb-status.safe {
+
+  background: rgba(34, 197, 94, .12);
+
+  color: var(--wb-success);
+
+}
+
+.wb-status.warning {
+
+  background: rgba(250, 204, 21, .12);
+
+  color: var(--wb-warning);
+
+}
+
+.wb-status.danger {
+
+  background: rgba(239, 68, 68, .12);
+
+  color: var(--wb-danger);
+
+}
+
+.wb-status.info {
+
+  background: rgba(59, 130, 246, .12);
+
+  color: var(--wb-info);
+
+}
+
+
+/*=============================================================================
+   CHARTS
+=============================================================================*/
+
+.wb-chart {
+
+  width: 100%;
+
+  height: 100%;
+
+  background: transparent;
+
+}
+
+.wb-chart svg {
+
+  width: 100%;
+
+  height: 100%;
+
+}
+
+.wb-chart-grid {
+
+  stroke: var(--wb-color-divider);
+
+  stroke-width: 1;
+
+  opacity: .35;
+
+}
+
+.wb-chart-line {
+
+  fill: none;
+
+  stroke: var(--wb-chart-primary);
+
+  stroke-width: 2.5;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+
+}
+
+.wb-chart-area {
+
+  fill: url(#wbChartGradient);
+
+  opacity: .18;
+
+}
+
+.wb-chart-point {
+
+  fill: var(--wb-chart-primary);
+
+  stroke: var(--wb-color-card);
+
+  stroke-width: 3;
+
+}
+
+.wb-chart-legend {
+
+  display: flex;
+
+  gap: 18px;
+
+  flex-wrap: wrap;
+
+  font-size: 13px;
+
+  color: var(--wb-color-text-secondary);
+
+  margin-top: 16px;
+
+}
+
+
+/*=============================================================================
+   TIMELINE
+=============================================================================*/
+
+.wb-timeline {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 22px;
+
+  position: relative;
+
+}
+
+.wb-timeline::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: 14px;
+
+  top: 0;
+
+  bottom: 0;
+
+  width: 2px;
+
+  background: var(--wb-color-divider);
+
+}
+
+.wb-timeline-item {
+
+  position: relative;
+
+  padding-left: 42px;
+
+}
+
+.wb-timeline-item::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: 8px;
+
+  top: 4px;
+
+  width: 14px;
+
+  height: 14px;
+
+  border-radius: 50%;
+
+  background: var(--wb-color-primary);
+
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, .15);
+
+}
+
+
+/*=============================================================================
+   EMPTY / ERROR STATES
+=============================================================================*/
+
+.wb-empty,
+.wb-error {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 72px 32px;
+
+  text-align: center;
+
+  gap: 18px;
+
+  color: var(--wb-color-text-muted);
+
+}
+
+.wb-error {
+
+  color: var(--wb-danger);
+
+}
+
+
+/*=============================================================================
+   RESPONSIVE
+=============================================================================*/
+
+@media(max-width:1100px) {
+
+  .wb-guardian {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}
+
+@media(max-width:768px) {
+
+  .wb-ai-message {
+
+    max-width: 100%;
+
+  }
+
+  .wb-report {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+  }
+
+  .wb-report-actions {
+
+    width: 100%;
+
+    justify-content: flex-end;
+
+  }
+
+  .wb-ai-input {
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+  }
+
+  .wb-ai-input button {
+
+    width: 100%;
+
+  }
+
+}
+
+
+/*=============================================================================
+   END OF PART 3B
+=============================================================================*/
